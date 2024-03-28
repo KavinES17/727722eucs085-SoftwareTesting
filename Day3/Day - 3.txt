@@ -1,0 +1,149 @@
+DAY 3 JAVA REVISION
+
+Q1.
+// You are using Java
+import java.util.*;
+class Cart
+{
+    ArrayList<Double> al=new ArrayList<>();
+    ArrayList<String> a=new ArrayList<>();
+    void addItem(String x,Double y)
+    {
+        a.add(x);
+        al.add(y);
+    }
+    void removeItem(String r)
+    {
+        int t=a.indexOf(r);
+        if(t!=-1){
+            al.remove(t);
+            a.remove(r);
+        }
+    }
+    void calculateTotalPrice()
+    {
+        Double sum=0.0;
+        for(Double x:al)
+        {
+            sum+=x;
+        }
+        System.out.println("Total Price after removing items: $"+sum);
+    }
+    public static void main(String[] args)
+    {
+        Scanner ob=new Scanner(System.in);
+        int n=ob.nextInt();
+        ob.nextLine();
+        Cart c=new Cart();
+        for(int i=0;i<n;i++)
+        {
+            c.addItem(ob.nextLine(),Double.parseDouble(ob.nextLine()));
+        }
+        int k=ob.nextInt();
+        ob.nextLine();
+        for(int i=0;i<k;i++)
+        {
+            c.removeItem(ob.nextLine());
+        }
+        c.calculateTotalPrice();
+    }
+}
+
+
+
+//
+Q2.
+// You are using Java
+import java.util.*;
+import java.lang.*;
+class InsufficientBalanceException extends Exception{
+    InsufficientBalanceException(String e){
+            super(e);
+    } 
+}
+class main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        try{
+            double a=sc.nextDouble();
+            double b=sc.nextDouble();
+            if(a<b){
+                throw new InsufficientBalanceException("Insufficient balance: Insufficient balance to perform the withdrawal.");
+            }
+            System.out.print("Transaction successful.");
+        }
+        catch(InsufficientBalanceException e){
+             System.out.println(e.getMessage());
+        }
+    }
+}
+
+///
+Q3.
+
+// You are using Java
+// You are using Java
+import java.util.*;
+import java.sql.*;
+class Main
+{
+    public void show(Statement st) throws Exception
+    {
+        ResultSet rs=st.executeQuery("Select * from customer");
+        while(rs.next())
+        {
+            System.out.println("ID: "+rs.getInt("customer_id")+", Name: "+rs.getString("name")+", Contact Information: "+rs.getString("contact_information")+", Subscription Plan: "+rs.getString("subscription_plan")+", Payment History: "+rs.getString("payment_history"));
+            
+        }
+    }
+    public static void main(String[] args)throws Exception
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con=DriverManager.getConnection("jdbc:mysql://localhost/ri_db","test","test123");
+        Main m=new Main();
+        Statement st=con.createStatement();
+        Scanner ob=new Scanner(System.in);
+        int n=Integer.parseInt(ob.nextLine());
+        if(n==1)
+        {
+            st.executeUpdate("INSERT into customer VALUES('"+Integer.parseInt(ob.nextLine())+"','"+ob.nextLine()+"','"+ob.nextLine()+"','"+ob.nextLine()+"','"+ob.nextLine()+"')");
+            System.out.println("Customer record inserted successfully.");
+            m.show(st);
+        }
+        else if(n==2)
+        {
+            int l=Integer.parseInt(ob.nextLine());
+            st.executeUpdate("UPDATE customer SET name='" + ob.nextLine() + "', contact_information='"+ ob.nextLine() + "', subscription_plan='" + ob.nextLine()+ "', payment_history='" + ob.nextLine() + "' WHERE customer_id=" + l);
+            System.out.println("Customer record updated successfully.");    
+            m.show(st);
+        }
+        else if(n==3)
+        {
+            m.show(st);
+        }
+        else
+        {
+            System.out.println("Invalid operation number. Please try again.");
+        }
+    }
+}
+
+Q4.
+// You are using Java
+// You are using Java
+import java.util.*;
+import java.sql.*;
+class Main
+{
+    public static void main(String[] args) throws Exception
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con=DriverManager.getConnection("jdbc:mysql://localhost/ri_db","test","test123");
+        Statement st=con.createStatement();
+        ResultSet rs=st.executeQuery("Select LOWER(Department_Name) from department");
+        while(rs.next())
+        {
+            System.out.println(rs.getString("LOWER(Department_Name)"));
+        }
+    }
+}
